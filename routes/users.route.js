@@ -23,7 +23,7 @@ router.post("/signup", async(req, res) => {
 
     return res.status(201).json({ message: "회원가입이 완료되었습니다."})
 })
-
+// 로그인 API
 router.post("/login", async(req,res)=> {
     const { login_id, password} = req.body;
     const user = await Users.findOne({
@@ -36,24 +36,24 @@ router.post("/login", async(req,res)=> {
         return res.status(401).json({message:"비밀번호가 일치하지 않습니다."});
     }
 
-    const token = jwt.sign({
-        tokenId: user.user_id
-    }, "customized_secret_key");
+    const token = jwt.sign(
+        {user_id: user.user_id}
+    , "customized_secret_key");
 
     //쿠키발급
-    res.cookie("authorization", `Bearer ${token}`);
+    res.cookie("Authorization", `Bearer ${token}`);
     //response 할당
     return res.status(200).json({message:"로그인에 성공하였습니다."})
 });
 
 router.get("/login", authMiddleware ,async(req,res)=> {
-   const { tokenId } = res.locals.user;
-    console.log("tokenId");
-    //const user = await Users.findALL({
-      //  where:{tokenId}
-   // });
+    const { user_id } = res.locals.user;
+    console.log(user_id);
+    const user = await Users.findOne({
+        where:{user_id}
+    });
     
-    res.status(200).json({message:"error"});
+    res.status(200).json({data:user});
 });
 
 module.exports = router;

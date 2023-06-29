@@ -7,14 +7,14 @@ const authMiddleware = require("../middlewares/auth-middleware");
 // 프로필 상세 조회
 router.get('/profiles/:login_id', authMiddleware, async (req, res) => {
   const { login_id } = req.params;
-  const { tokenId } = res.locals.user;
-  console.log("tokenId");
+  const { user_id } = res.locals.user;
+
 
   const user = await Users.findOne({
-    where: {tokenId}
+    where: {user_id}
   });
 
-  if (tokenId !== Number(login_id)) {
+  if (user.user_id !== user_id) {
     return res.status(403).json({ message: "프로필을 조회할 권한이 없습니다." });
   }
 
