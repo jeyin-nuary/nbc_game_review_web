@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const {Users} = require("../models");
+const authMiddleware = require("../middlewares/auth-middleware");
 const router = express.Router();
 
 
@@ -36,13 +37,23 @@ router.post("/login", async(req,res)=> {
     }
 
     const token = jwt.sign({
-        userId: user.user_id
+        tokenId: user.user_id
     }, "customized_secret_key");
 
     //쿠키발급
     res.cookie("authorization", `Bearer ${token}`);
     //response 할당
     return res.status(200).json({message:"로그인에 성공하였습니다."})
+});
+
+router.get("/login", authMiddleware ,async(req,res)=> {
+   const { tokenId } = res.locals.user;
+    console.log("tokenId");
+    //const user = await Users.findALL({
+      //  where:{tokenId}
+   // });
+    
+    res.status(200).json({message:"error"});
 });
 
 module.exports = router;
