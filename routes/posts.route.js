@@ -25,7 +25,7 @@ router.get("/posts/:post_id", async (req, res) => {
     try {
         const { post_id } = req.params;
         const post = await Posts.findOne({
-            attributes: ['post_id', 'user_id', 'nickname', 'title', 'game_title', 'genre', 'content', 'createdAt'],
+            attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             where: { post_id }
         });
 
@@ -40,11 +40,10 @@ router.get("/posts/:post_id", async (req, res) => {
 // 게시글 작성 api (authMiddleware: 사용자 인증)
 router.post("/posts", authMiddleware, async (req, res) => {
     //게시글을 생성하는 사용자의 정보를 가지고 올 것.
-    // nickname도 userId처럼 user로컬에서 가져와야 하나?
     const { user_id } = res.locals.user;
     const { title, game_title, genre, content } = req.body;
-    const posts = await Posts.findOne({where: user_id});
-    
+    const posts = await Posts.findOne({ where: user_id });
+
     try {
         //유효성 검사
         //인증된 사용자인지
@@ -71,7 +70,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
             content
         });
 
-        return res.status(201).json({ message:"게시글 작성에 성공하였습니다." });
+        return res.status(201).json({ message: "게시글 작성에 성공하였습니다." });
     } catch (error) {
         console.error(error);
 
@@ -90,7 +89,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
 router.put("/posts/:post_id", authMiddleware, async (req, res) => {
     const { post_id } = req.params;
     const { user_id } = res.locals.user;
-    const { title, game_title, nickname, genre, content } = req.body;
+    const { title, game_title, genre, content } = req.body;
 
     try {
         // 수정할 게시글 조회
