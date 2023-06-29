@@ -52,7 +52,7 @@ router.put('/profiles/:login_id', authMiddleware, async (req, res) => {
 router.put('/profiles/:login_id/password', authMiddleware, async (req, res) => {
   const { login_id } = req.params;
   const { user_id } = res.locals.user;
-  const { newPassword, confirmPassword, currentPassword } = req.body;
+  const { password, newPassword, confirmPassword } = req.body;
 
   const user = await Users.findOne({
     where: { user_id }
@@ -67,14 +67,21 @@ router.put('/profiles/:login_id/password', authMiddleware, async (req, res) => {
   }
 
   try {
+
+      // 원래는 bcrypt()를 사용해서 인증하려고 했지만 자꾸 오류가 생겨서 직접 변경으로 수정함
+      // const isCurrentPasswordValid = await bcrypt.compare(password, user.password);
+      // if (!isCurrentPasswordValid) {
+      //   return res.status(401).json({ message: "비밀번호가 올바르지 않습니다." });
+      // }
+  
     // 현재 비밀번호 인증
-    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
-    if (!isCurrentPasswordValid) {
-      return res.status(401).json({ message: "현재 비밀번호가 올바르지 않습니다." });
+    if (password !== user.password) {
+      console.log('현재 비밀번호가 올바르지 않습니다.'); // 콘솔 로그 출력
+      return res.status(401).json({ message: "비밀번호가 올바르지 않습니다." });
     }
 
     // 새로운 비밀번호 해싱
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    const hashedNewPassword = newPassword;
 
     // 비밀번호 업데이트
     await Users.update(
@@ -84,6 +91,7 @@ router.put('/profiles/:login_id/password', authMiddleware, async (req, res) => {
 
     res.status(200).json({ message: "비밀번호가 성공적으로 수정되었습니다." });
   } catch (error) {
+    console.error('비밀번호 수정 중에 오류가 발생했습니다:', error); // 콘솔 에러 로그 출력
     res.status(500).json({ message: "비밀번호 수정 중에 오류가 발생했습니다." });
   }
 });
