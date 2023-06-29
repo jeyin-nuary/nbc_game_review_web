@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/posts", async (req, res) => {
     try {
         const posts = await Posts.findAll({
-            attributes: ['post_id', 'user_id', 'nickname', 'title', 'game_title', 'genre', 'content', 'createdAt'],
+            attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             order: [['createdAt', 'DESC']]
         });
 
@@ -42,8 +42,9 @@ router.post("/posts", authMiddleware, async (req, res) => {
     //게시글을 생성하는 사용자의 정보를 가지고 올 것.
     // nickname도 userId처럼 user로컬에서 가져와야 하나?
     const { user_id } = res.locals.user;
-    const { title, game_title, genre, nickname, content, createdAt } = req.body;
-
+    const { title, game_title, genre, content } = req.body;
+    const posts = await Posts.findOne({where: user_id});
+    
     try {
         //유효성 검사
         //인증된 사용자인지
@@ -62,17 +63,15 @@ router.post("/posts", authMiddleware, async (req, res) => {
         }
 
         // 새로운 게시물 생성
-        const post = await Posts.create({
+        const createPost = await Posts.create({
             User_id: user_id,
             title,
             game_title,
             genre,
-            nickname,
-            content,
-            createdAt
+            content
         });
 
-        return res.status(201).json({ data: post });
+        return res.status(201).json({ message:"게시글 작성에 성공하였습니다." });
     } catch (error) {
         console.error(error);
 
