@@ -12,8 +12,25 @@ router.get("/posts", async (req, res) => {
             attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             order: [['createdAt', 'DESC']]
         });
+        //console.log(posts)
 
-        return res.status(200).json({ data: posts });
+        if (posts.length !== 0) {
+            const results = posts.map(post => {
+        
+              return {
+                postId: post.post_Id,
+                title: post.title,
+                content: post.content,
+                genre: post.genre,
+              };
+            });
+            res.status(200).json({ results })
+          } 
+          else {
+            res.json({ message: "피드가 존재하지 않습니다." });
+          }
+
+        //return res.status(200).json({ data: posts });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
