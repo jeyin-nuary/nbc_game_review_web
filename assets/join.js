@@ -6,15 +6,10 @@ document
     const password = document.getElementById("UserPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const nickname = document.getElementById("UserNickname").value;
-    // const email = document.getElementById("UserEmail").value;
-    // const introduction = document.getElementById("introduction").value;
+    const email = document.getElementById("UserEmail").value;
+    const introduction = document.getElementById("introduction").value;
     const age = document.getElementById("UserAge").value;
-    console.log(login_id)
-    console.log(password)
-    console.log(confirmPassword)
-    console.log(nickname)
-    console.log(age)
-
+    
     try {
       const response = await fetch("/api/signup", {
         method: "POST",
@@ -26,9 +21,9 @@ document
           nickname,
           age,
           password,
-          //confirmPassword,
-          //email,
-          //introduction,
+          confirmPassword,
+          email,
+          introduction,
         }),
       });
 
