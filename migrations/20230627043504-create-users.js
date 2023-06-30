@@ -26,6 +26,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TINYINT
       },
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      introduction: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
