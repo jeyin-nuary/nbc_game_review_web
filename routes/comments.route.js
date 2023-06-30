@@ -1,101 +1,131 @@
-const express = require('express');
+const express = require("express");
+const { Op } = require("sequelize");
+const { Posts, Comments, Users } = require("../models");
+const authMiddleware = require("../middlewares/auth-middleware");
 const router = express.Router();
-const Comment = require('../models/comment');
 
-
-
-// POST : 댓글 등록하기
-router.post('/posts/:postId/comments', authMiddleware, async (req, res) => {
-  const { postId } = req.params;
-  const { comment } = req.body;
-  const { nickname } = res.locals.user;
-
-  const postDataCheck = await Post.findById(postId);
-  if (!postDataCheck) {
-    return res.status(404).json({ "message": "해당하는 게시물이 없습니다." });
-  }
-
-  // 유효성 검사 : body, params
-  if (!comment) {
-    throw new Error("데이터 형식이 올바르지 않습니다.")
-  }
-
-  // 댓글 생성
-  const newComment = new Comment({ post: postId, comment, nickname });
-
-  // 댓글 저장
-  await newComment.save();
-
-  res.status(200).json({ "message": "댓글이 작성되었습니다.", "comment": newComment });
-});
-
-// GET : 게시물에 맞는 댓글 데이터 가져오기
-router.get('/posts/:postId/comments', async (req, res) => {
-  const { postId } = req.params;
-
-  const postDataCheck = await Post.findById(postId);
-  if (!postDataCheck) {
-    return res.status(404).json({ "message": "해당하는 게시물이 없습니다." });
-  }
-
-  const resultDatas = await Comment.find({ post: postId }, '_id user content createdAt').sort({ createdAt: -1 }); // 뒤의 '_id .. ' 는 mongoDB 문법으로 특정 필드만 반환하도록 지정함
-
-  // 유효성 검사 : body, params
-  if (!postId) {
-    throw new Error("데이터 형식이 올바르지 않습니다.")
-  }
-
-  res.status(200).json({ "message": "데이터 전송완료", "comments": resultDatas })
-});
-
-// PATCH : 댓글 수정하기
-router.patch('/posts/:postId/comments/:commentId', authMiddleware, async (req, res) => {
-  const { commentId } = req.params;
+// 댓글 작성 API (authMiddleware: 사용자 인증)
+router.post("/posts/:post_id/comments", authMiddleware, async (req, res) => {
+  const { user_id } = res.locals.user;
+  const { post_id } = req.params;
   const { comment } = req.body;
 
-  const commentData = await Comment.findById(commentId);
-  // 유효성 검사 : 댓글 데이터 확인
-  if (!commentData) {
-    return res.status(404).json({ "message": "해당하는 댓글이 없습니다." });
+  try {
+    // 게시글 조회
+    const post = await Posts.findOne({ where: { post_id } });
+    if (!post) {
+      return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
+    }
+
+    // 댓글 데이터 유효성 검사
+    if (!comment || typeof comment !== "string") {
+      return res.status(412).json({ errorMessage: "댓글의 형식이 올바르지 않습니다." });
+    }
+
+    // 새로운 댓글 작성
+    const createComment = await Comments.create({
+      User_id: user_id,
+      Post_id: post_id,
+      comment,
+    });
+
+    return res.status(201).json({ message: "댓글 작성에 성공하였습니다." });
+  } catch (error) {
+    console.error(error);
+
+    // 예외 종류에 따라 에러 메시지 설정
+    if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+      return res.status(403).json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
+    }
+
+    return res.status(400).json({ errorMessage: "댓글 작성에 실패하였습니다." });
   }
-
-  // 유효성 검사 : 댓글 작성 여부
-  if (!comment) {
-    throw new Error("댓글 내용을 입력해주세요.");
-  }
-
-  // 유효성 검사 : body, params
-  if (!commentId || !comment) {
-    throw new Error("데이터 형식이 올바르지 않습니다.");
-  }
-
-  commentData.comment = comment;
-  await commentData.save();
-
-  res.status(200).json({ "message": "댓글 수정 완료", "comment": commentData });
 });
 
-// DELETE : 댓글 삭제
-router.delete('/posts/:postId/comments/:commentId', authMiddleware, async (req, res) => {
-  const { commentId } = req.params;
-  const deleteData = req.body;
+// 댓글 조회 API
+router.get("/posts/:post_id/comments", async (req, res) => {
+    const { post_id } = req.params;
+  
+    try {
+      // 게시글 조회
+      const post = await Posts.findOne({ where: { post_id } });
+      if (!post) {
+        return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
+      }
+  
+      // 댓글 조회
+      const comments = await Comments.findAll({
+        where: { Post_id: post_id },
+        include: [
+          {
+            model: Users,
+            attributes: ["user_id"], // user_id 속성만 가져옵니다.
+          },
+        ],
+      });
+  
+      return res.status(200).json(comments);
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({ errorMessage: "댓글 조회에 실패하였습니다." });
+    }
+  });
+  
 
-  const commentData = await Comment.findById(commentId);
+// 댓글 수정 API (authMiddleware: 사용자 인증)
+router.put("/comments/:comment_id", authMiddleware, async (req, res) => {
+  const { user_id } = res.locals.user;
+  const { comment_id } = req.params;
+  const { comment } = req.body;
 
-  // 유효성 검사 : 댓글 데이터 확인
-  if (!commentData) {
-    return res.status(404).json({ "message": "해당하는 댓글이 없습니다." });
+  try {
+    // 댓글 조회
+    const existingComment = await Comments.findOne({ where: { comment_id } });
+    if (!existingComment) {
+      return res.status(404).json({ message: "댓글이 존재하지 않습니다." });
+    }
+
+    // 사용자 인증 및 권한 확인
+    if (existingComment.User_id !== user_id) {
+      return res.status(403).json({ message: "댓글을 수정할 권한이 없습니다." });
+    }
+
+    // 댓글 수정
+    await Comments.update({ comment }, { where: { comment_id } });
+
+    return res.status(200).json({ message: "댓글 수정에 성공하였습니다." });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ errorMessage: "댓글 수정에 실패하였습니다." });
   }
-
-  // 유효성 검사 : body, params
-  if (!commentId) {
-    throw new Error("데이터 형식이 올바르지 않습니다.");
-  }
-
-  await commentData.deleteOne();
-  res.status(200).json({ "message": "댓글 삭제 완료" });
-
 });
 
+// 댓글 삭제 API (authMiddleware: 사용자 인증)
+router.delete("/comments/:comment_id", authMiddleware, async (req, res) => {
+  const { user_id } = res.locals.user;
+  const { comment_id } = req.params;
+
+  try {
+    // 댓글 조회
+    const existingComment = await Comments.findOne({ where: { comment_id } });
+    if (!existingComment) {
+      return res.status(404).json({ message: "댓글이 존재하지 않습니다." });
+    }
+
+    // 사용자 인증 및 권한 확인
+    if (existingComment.User_id !== user_id) {
+      return res.status(403).json({ message: "댓글을 삭제할 권한이 없습니다." });
+    }
+
+    // 댓글 삭제
+    await Comments.destroy({ where: { comment_id } });
+
+    return res.status(200).json({ message: "댓글 삭제에 성공하였습니다." });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ errorMessage: "댓글 삭제에 실패하였습니다." });
+  }
+});
 
 module.exports = router;
+
