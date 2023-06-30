@@ -14,8 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 
-    <title>회원정보 업데이트
-    </title>
+    <title>회원 가입페이지</title>
 
     <style>
         .main_page {
@@ -80,31 +79,25 @@
 <body>
     <div class="main_page">
         <div class="main_title">
-            <h1>회원정보 수정 페이지</h1>
+            <h1>로그인 페이지</h1>
         </div>
         <div>
             <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg">변경할 닉네임</span>
+                <span class="input-group-text" id="inputGroup-sizing-lg">아이디</span>
                 <input type="text" class="form-control" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-lg" id="name">
+                    aria-describedby="inputGroup-sizing-lg" id="login_id">
             </div>
             <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg">비밀번호 변경</span>
+                <span class="input-group-text" id="inputGroup-sizing-lg">비밀번호</span>
                 <input type="text" class="form-control" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-lg" id="age">
-            </div>
-            <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg">비밀번호변경 확인</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-lg" id="hobby">
-            </div>
-          
-           
-            <button onclick="posting()" type="button" class="btn btn-outline-success">저장하기</button>
+                    aria-describedby="inputGroup-sizing-lg" id="password">
+            </div>           
+            <button  id="loginSubmit" class="btn btn-outline-success">로그인</button>
         </div>
-
     </div>
 
+<!-- 자바스크립트 -->
+<script src="login.js"></script>
 
 
 </body>
