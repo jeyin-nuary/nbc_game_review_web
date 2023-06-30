@@ -36,6 +36,7 @@ document
       if (response.ok) {
         // 회원가입 성공
         alert(data.message); // 알림 창 띄우기
+        window.location.href = "/"; // 회원가입 완료시 메인페이지 이동
 
         location.reload(); // 페이지 새로고침
         // 회원가입 후 필요한 동작 수행

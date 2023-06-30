@@ -12,7 +12,7 @@ document
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            userId,
+            login_id,
             password,
           }),
         });
@@ -21,7 +21,7 @@ document
           if (response.ok) {
             // 로그인 성공
             alert(data.message); // 알림 창 띄우기
-            window.location.href = "myInfo.html"; // 새로운 페이지로 이동
+            window.location.href = "/"; // 로그인 완료시 메인페이지 이동
             // 로그인 후 필요한 동작 수행
           } else {
             // 로그인 실패
