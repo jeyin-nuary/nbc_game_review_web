@@ -13,6 +13,7 @@ document
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            postId,
             title,
             game_title,
             genre,
