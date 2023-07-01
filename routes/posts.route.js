@@ -18,7 +18,7 @@ router.get("/posts", async (req, res) => {
             const results = posts.map(post => {
         
               return {
-                postId: post.post_Id,
+                postId: post.post_id,
                 title: post.title,
                 content: post.content,
                 genre: post.genre,
@@ -41,12 +41,16 @@ router.get("/posts", async (req, res) => {
 router.get("/posts/:post_id", async (req, res) => {
     try {
         const { post_id } = req.params;
-        const post = await Posts.findOne({
+        const posts = await Posts.findOne({
             attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             where: { post_id }
         });
-
-        return res.status(200).json({ data: post });
+            if (posts.length !== 0) {
+                const results = posts;
+                console.log(results);
+                res.status(200).json({ results })
+            }
+        return res.status(200).json({ message: "게시글 조회 성공하였습니다." });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
