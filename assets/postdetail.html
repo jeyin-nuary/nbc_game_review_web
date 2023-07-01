@@ -66,31 +66,16 @@
       }
 
       .form-control {
-        margin: 0% 10% 2% 5%;
+        margin: 0% 0% 0% 5%;
 
         background-color: rgba(255, 255, 255, 0.5);
       }
-
-      .btn-outline-success {
-        width: 90%;
-
-        margin: 5% 5% 0% 5%;
-
-        border-radius: 20px;
-
-        background-color: rgba(255, 255, 255, 0.5);
+      .btn btn-outline-secondary{
+        margin: 0% 10% 0% 0%;
       }
-      .postCrContent {
+      .commentInput{
         width: 80%;
-        height: 500px;
-        margin: 0% 0% 2% 10%;
-
-        justify-content: center;
-      }
-      .postCrContent::placeholder {
-        padding-left: 10px;
-        position: absolute;
-        top: 2%;
+        margin: 0% 0% 0% 10%;
       }
     </style>
   </head>
@@ -100,21 +85,37 @@
       <div class="main_title">
         <h1>게시글 상세페이지</h1>
       </div>
-                  <div class="card__inner container gray" id="cardList">
-              <!-- <div class="card">
-                <h3 class="tit" id="title">(제목)</h3>
-                <h5 id="genre">게임장르</h5>
-                <p class="desc">리뷰</p>
-                <button type="button" class="more" class="ir">더보기</button>
-              </div> -->
+                        <div class="card__inner container gray" id="cardList">
+                          <button
+                          type="button" class="btn btn-dark" id="postUpdate" >
+                          게시글 수정</button>
+                        <button type="button"
+                        class="btn btn-dark" id="postDelete">
+                         게시글 삭제 </button>
             </div>
-        </div>
-      </div>
+            <div>
+              
+              <!-- 댓글 작성란 -->
+              <div class="input-group mb-3">
+                <input type="text" class="commentInput" placeholder="댓글 작성란" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">작성</button>
+              </div>
+
+              <!-- 댓글 박스 -->
+              <div id="commentBox">
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text" >닉네임</span>
+                  <span type="text" class="form-control" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-lg" id="login_id"></span>
+                      <button class="btn btn-outline-secondary" type="button" id="commentUpdate">수정</button>
+                      <button class="btn btn-outline-secondary" type="button" id="commentDelete">삭제</button>
+                    </div>
+              </div>
+              </div>
+              
     </div>
   </body>
   <!-- 자바스크립트 -->
   <script src="postdetail.js"></script>
-  <script>
 
-  </script>
 </html>

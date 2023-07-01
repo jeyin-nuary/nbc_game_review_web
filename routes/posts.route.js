@@ -170,7 +170,7 @@ router.delete("/posts/:post_id", authMiddleware, async (req, res) => {
             return res.status(403).json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
         }
 
-        return res.status(400).json({ errorMessage: "게시글 작성에 실패하였습니다." });
+        return res.status(400).json({ errorMessage: "게시글 삭제에 실패하였습니다." });
     }
 })
 
