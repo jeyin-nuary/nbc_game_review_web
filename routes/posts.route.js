@@ -47,10 +47,9 @@ router.get("/posts/:post_id", async (req, res) => {
         });
             if (posts.length !== 0) {
                 const results = posts;
-                console.log(results);
                 res.status(200).json({ results })
             }
-        return res.status(200).json({ message: "게시글 조회 성공하였습니다." });
+        // return res.status(200).json({ message: "게시글 조회 성공하였습니다." });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
