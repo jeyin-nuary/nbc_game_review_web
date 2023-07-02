@@ -87,23 +87,20 @@ document.getElementById('commentCreate').addEventListener('click', async functio
 });
 
 //댓글 자동 조회
-// window.addEventListener("DOMContentLoaded", async function(){
-//   fetch(`/api/posts/${id}/comments`)
-//   .then((response) => response.json())
-//   .then((data) => {
-//       let comments = data["results"];
-      
+window.addEventListener("DOMContentLoaded", async function(){
+  fetch(`/api/posts/${id}/comments`,{})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+      let rows = data["results"];
+      const commentBox  = document.getElementById("commentBox")
+      rows.forEach(comments => {
+          const comment = comments["comment"]
+          const temp_html = ` <input type="text" class="commentInput" value="${comment}" disabled=""/>
+                <button class="btn btn-outline-secondary" type="button" id="commentUpdate">수정</button>
+                <button class="btn btn-outline-secondary" type="button" id="commentDelete">삭제</button>`;
+        commentBox.insertAdjacentHTML("beforeend", temp_html)
 
-//       const commentList  = document.getElementById("commentBox")
-//           //const comment = comments["comment"]
-//           //const user_id = comments["user_id"]
-//           const temp_html = `<div class="input-group input-group-lg">
-//           <span class="input-group-text" >${user_id}</span>
-//           <span type="text" class="form-control" aria-label="Sizing example input"
-//               aria-describedby="inputGroup-sizing-lg" id="login_id">${comment}</span>
-//               <button class="btn btn-outline-secondary" type="button" id="commentUpdate">수정</button>
-//               <button class="btn btn-outline-secondary" type="button" id="commentDelete">삭제</button>
-//         </div>`;
-//         commentList.insertAdjacentHTML("beforeend", temp_html)
-//   });
-// });
+      });
+  });
+});

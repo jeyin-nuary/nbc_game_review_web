@@ -56,18 +56,25 @@ router.get("/posts/:post_id/comments", async (req, res) => {
   const { post_id } = req.params;
 
   try {
-    // 게시글 조회
-    const post = await Posts.findOne({ where: { post_id } });
-    if (!post) {
-      return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
-    }
-
     // 댓글 조회
     const comments = await Comments.findAll({
+      attributes:['comment'],
       where: { Post_id: post_id },
     });
 
-    return res.status(200).json(comments);
+    if (comments.length !== 0) {
+      const results = comments.map(comments => {
+  
+        return {
+          comment: comments.comment,
+        };
+      });
+      res.status(200).json({ results })
+    } else {
+      res.json({ message: "댓글이 존재하지 않습니다." });
+    }
+
+    //return res.status(200).json(comments);
   } catch (error) {
     console.error(error);
     return res
