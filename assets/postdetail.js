@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", async function(){
 //게시글 수정
 document
   .getElementById("postUpdate")
-  .addEventListener("click", async function(){
+  .addEventListener("click",authMiddleware, async function(){
     window.location.href = `/postupdate.html?id=${id}`
   })
 
