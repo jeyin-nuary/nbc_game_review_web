@@ -129,7 +129,7 @@ router.put("/posts/:post_id", authMiddleware, async (req, res) => {
                 }
             }
         );
-        return res.status(200).json({ data: "게시글이 수정되었습니다." });
+        return res.status(200).json({ message: "게시글이 수정되었습니다." });
     } catch (error) {
         console.error(error);
         if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
