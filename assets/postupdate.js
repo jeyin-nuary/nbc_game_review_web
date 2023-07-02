@@ -94,7 +94,7 @@ document
             alert(data.message); // 알림 창 띄우기
             window.location.href =`/` ; // 수정 완료시 메인페이지 이동
           } else {
-            // 수성 실패
+            // 수정 실패
             alert(data.message);
             // 실패 처리 로직 수행
           }

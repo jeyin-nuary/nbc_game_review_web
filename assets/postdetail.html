@@ -70,14 +70,30 @@
 
         background-color: rgba(255, 255, 255, 0.5);
       }
-      .btn btn-outline-secondary{
+      .btn btn-outline-secondary {
         margin: 0% 10% 0% 0%;
       }
-      .commentInput{
+      .commentInput {
         width: 70%;
         margin: 0% 0% 0% 10%;
       }
     </style>
+    <script>
+      function openPopup(url, width, height) {
+        let left = (window.screen.width - width) / 2;
+        let top = (window.screen.height - height) / 2;
+        let options =
+          "resizable=yes, width=" +
+          width +
+          ", height=" +
+          height +
+          ", top=" +
+          top +
+          ", left=" +
+          left;
+        window.open(url, "_blank", options);
+      }
+    </script>
   </head>
 
   <body>
@@ -85,33 +101,35 @@
       <div class="main_title">
         <h1>게시글 상세페이지</h1>
       </div>
-                        <div class="card__inner container gray" id="cardList">
-                          <button
-                          type="button" class="btn btn-dark" id="postUpdate" >
-                          게시글 수정</button>
-                        <button type="button"
-                        class="btn btn-dark" id="postDelete">
-                         게시글 삭제 </button>
-            </div>
-            <div>
-              
-              <!-- 댓글 작성란 -->
-              <div class="input-group mb-3">
-                <input type="text" class="commentInput" placeholder="댓글 작성란" id="commentInput"/>
-                <button class="btn btn-outline-secondary" type="button" id="commentCreate">작성</button>
-              </div>
-              <div id="commentBox">
-                <input type="text" class="commentInput" placeholder="댓글 작성란" id=""/>
-                <button class="btn btn-outline-secondary" type="button" id="commentUpdate">수정</button>
-                <button class="btn btn-outline-secondary" type="button" id="commentDelete">삭제</button>
-              </div>
-
-              </div>
-              
+      <div class="card__inner container gray" id="cardList">
+        <button type="button" class="btn btn-dark" id="postUpdate">
+          게시글 수정
+        </button>
+        <button type="button" class="btn btn-dark" id="postDelete">
+          게시글 삭제
+        </button>
+      </div>
+      <div>
+        <!-- 댓글 작성란 -->
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="commentInput"
+            placeholder="댓글 작성란"
+            id="commentInput"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="commentCreate"
+          >
+            작성
+          </button>
+        </div>
+        <div id="commentBox"></div>
+      </div>
     </div>
-    
   </body>
   <!-- 자바스크립트 -->
   <script src="postdetail.js"></script>
-
 </html>

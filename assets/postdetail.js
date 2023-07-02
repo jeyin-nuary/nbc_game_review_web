@@ -96,11 +96,13 @@ window.addEventListener("DOMContentLoaded", async function(){
       const commentBox  = document.getElementById("commentBox")
       rows.forEach(comments => {
           const comment = comments["comment"]
-          const temp_html = ` <input type="text" class="commentInput" value="${comment}" disabled=""/>
-                <button class="btn btn-outline-secondary" type="button" id="commentUpdate">수정</button>
-                <button class="btn btn-outline-secondary" type="button" id="commentDelete">삭제</button>`;
+          const commentId = comments["commentId"]
+          const temp_html = `<input type="text" class="commentInput" value="${comment}" disabled=""/>
+          <div class="btn">
+          <a type="button" href="comment.html?id=${commentId}" onclick="openPopup(this.href, 1000, 700); return false;"
+          class="btn btn-dark">수정</a>
+          </div>`;
         commentBox.insertAdjacentHTML("beforeend", temp_html)
-
       });
   });
 });

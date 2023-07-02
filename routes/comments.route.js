@@ -58,7 +58,7 @@ router.get("/posts/:post_id/comments", async (req, res) => {
   try {
     // 댓글 조회
     const comments = await Comments.findAll({
-      attributes:['comment'],
+      attributes:['comment','comment_id'],
       where: { Post_id: post_id },
     });
 
@@ -67,6 +67,7 @@ router.get("/posts/:post_id/comments", async (req, res) => {
   
         return {
           comment: comments.comment,
+          commentId: comments.comment_id
         };
       });
       res.status(200).json({ results })
