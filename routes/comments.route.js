@@ -59,12 +59,17 @@ router.get("/posts/:post_id/comments", async (req, res) => {
         include: [
           {
             model: Users,
-            attributes: ["user_id"], // user_id 속성만 가져옵니다.
+            attributes: ["user_id",], // user_id 속성만 가져옵니다.
           },
         ],
       });
+            
+      if (comments.length !== 0) {
+        const results = comments;
+        res.status(200).json({ results })
+    }
   
-      return res.status(200).json(comments);
+      // return res.status(200).json(comments);
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: "댓글 조회에 실패하였습니다." });

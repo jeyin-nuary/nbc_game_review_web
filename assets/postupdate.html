@@ -66,16 +66,31 @@
       }
 
       .form-control {
-        margin: 0% 0% 0% 5%;
+        margin: 0% 10% 2% 5%;
 
         background-color: rgba(255, 255, 255, 0.5);
       }
-      .btn btn-outline-secondary{
-        margin: 0% 10% 0% 0%;
+
+      .btn-outline-success {
+        width: 90%;
+
+        margin: 5% 5% 0% 5%;
+
+        border-radius: 20px;
+
+        background-color: rgba(255, 255, 255, 0.5);
       }
-      .commentInput{
+      .postCrContent {
         width: 80%;
-        margin: 0% 0% 0% 10%;
+        height: 500px;
+        margin: 0% 0% 2% 10%;
+
+        justify-content: center;
+      }
+      .postCrContent::placeholder {
+        padding-left: 10px;
+        position: absolute;
+        top: 2%;
       }
     </style>
   </head>
@@ -83,29 +98,53 @@
   <body>
     <div class="main_page">
       <div class="main_title">
-        <h1>게시글 상세페이지</h1>
+        <h1>게시글 수정</h1>
       </div>
-                        <div class="card__inner container gray" id="cardList">
-                          <button
-                          type="button" class="btn btn-dark" id="postUpdate" onclick="window.location.href='/postupdate.html'">
-                          게시글 수정</button>
-                        <button type="button"
-                        class="btn btn-dark" id="postDelete">
-                         게시글 삭제 </button>
-            </div>
-            <div>
-              
-              <!-- 댓글 작성란 -->
-              <div class="input-group mb-3">
-                <input type="text" class="commentInput" placeholder="댓글 작성란" id="commentInput"/>
-                <button class="btn btn-outline-secondary" type="button" id="commentCreate">작성</button>
-              </div>
+      <div>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text" id="inputGroup-sizing-lg">제목</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg"
+            id="title"
+          />
+        </div>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text" id="inputGroup-sizing-lg"
+            >게임 이름</span
+          >
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg"
+            id="game_title"
+          />
+        </div>
 
-              </div>
-              
+        <div class="input-group input-group-lg">
+          <span class="input-group-text" id="inputGroup-sizing-lg"
+            >게임 장르</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg"
+            id="genre"/>
+        </div>
+
+        <div>
+            <input class="postCrContent" id="content" type="text" placeholder="내용" />
+            <p></p>
+        </div>
+        <button id="postSubmit" type="button" class="btn btn-outline-success">
+          저장하기
+        </button>
+      </div>
     </div>
   </body>
   <!-- 자바스크립트 -->
-  <script src="postdetail.js"></script>
-
+  <script src="postupdate.js"></script>
 </html>
