@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>프로필</title>
+    <style>
+        .profile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+
+        }
+
+        .priofile_table {
+            border: 1px solid rgb(233, 236, 239);
+            border-radius: 24px;
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 25px 0px;
+            margin: 0px auto 25px;
+            width: 690px;
+            max-width: 690px;
+            padding: 28px 40px;
+        }
+
+        input[type='text'] {
+            width: 100%;
+        }
+
+
+        .profile_style>label {
+            width: 20%;
+            display: inline-block;
+            margin-right: 10%;
+        }
+
+        .profile_style>div {
+            width: 60%;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .profile_style>div input {
+            width: 100%;
+            display: inline-block;
+        }
+
+        .btn {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+    </style>
+    <script>
+           function openPopup(url, width, height) {
+            let left = (window.screen.width - width) / 2;
+            let top = (window.screen.height - height) / 2;
+            let options = 'resizable=yes, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left;
+            window.open(url, '_blank', options);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="profile">
+        <div class="priofile_table">
+            <div class="profile_value">프로필 수정하기</div>
+            <div class="profile_nickname profile_style">
+                <label for="nickname_value" class="nickname">닉네임</label>
+                <div class="nickname_input"><input type="text" name="nickname_value" id="nickname_value"value=""placeholder="닉네임을 입력해주세요." >
+                </div>
+            </div>
+            <div class="profile_password profile_style">
+                <label for="password_value" class="password">비밀번호 확인</label>
+                <div class="password_input"><input  type="text" name="password_value" id="password_value"value="" placeholder="현재 비밀번호를 입력해주세요." >
+                </div>
+            </div>
+            <div class="profile_newPassword profile_style">
+                <label for="newPassword_value" class="newPassword">새로운 비밀번호</label>
+                <div class="newPassword_input"><input  type="text" name="newPassword_value" id="newPassword_value" value="" placeholder="새로운 비밀번호를 입력해주세요.">
+                </div>
+            </div>
+            <div class="profile_confirmPassword profile_style">
+                <label for="confirmPassword_value" class="confirmPassword">새로운 비밀번호 확인</label>
+                <div class="confirmPassword_input"><input  type="text" name="confirmPassword_value" id="confirmPassword_value" value="" placeholder="비밀번호는 영문, 숫자, 특수문자로 구성된 8자 이상의 값이여야합니다." >
+                </div>
+            </div>
+            <div class="profile_email profile_style">
+                <label for="email_value" class="email">email</label>
+                <div class="email_input"><input  type="text" name="email_value" id="eamil_value" value="" placeholder="email을 입력해주세요.">
+                </div>
+            </div>
+            <div class="profile_age profile_style">
+                <label for="age_value" class="age">나이</label>
+                <div class="age_input"><input  type="text" name="age_value" id="age_value" value="" placeholder="나이를 입력해주세요." >
+                </div>
+            </div>
+            <div class="profile_introduction profile_style">
+                <label for="introduction_value" class="introduction">자기소개</label>
+                <div class="introduction_input"><input maxlength="30" type="text" name="introduction_value" id="introduction_value" value="" placeholder="자기소개를 입력해주세요. 자기소개는 30자 이하여야 합니다.">
+                </div>
+            </div>
+            <p></p>
+            <div class="btn">
+            <button type="button" id="updateProfile" class="btn btn-dark">
+                프로필 수정하기
+              </button>
+             </div>
+              </div>
+
+        </div>
+    </div>
+
+    <script src="put_profile.js"></script>
+
+</body>
+
+</html>

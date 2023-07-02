@@ -23,7 +23,7 @@ router.post("/posts/:post_id/comments", authMiddleware, async (req, res) => {
     }
 
     // 새로운 댓글 작성
-    const createComment = await Comments.create({
+    await Comments.create({
       User_id: user_id,
       Post_id: post_id,
       comment,
@@ -44,33 +44,47 @@ router.post("/posts/:post_id/comments", authMiddleware, async (req, res) => {
 
 // 댓글 조회 API
 router.get("/posts/:post_id/comments", async (req, res) => {
-    const { post_id } = req.params;
-  
-    try {
-      // 게시글 조회
-      const post = await Posts.findOne({ where: { post_id } });
-      if (!post) {
-        return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
-      }
-  
-      // 댓글 조회
-      const comments = await Comments.findAll({
-        where: { Post_id: post_id },
-        include: [
-          {
-            model: Users,
-            attributes: ["user_id"], // user_id 속성만 가져옵니다.
-          },
-        ],
-      });
-  
-      return res.status(200).json(comments);
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({ errorMessage: "댓글 조회에 실패하였습니다." });
+  const { post_id } = req.params;
+
+  try {
+    // 게시글 조회
+    const post = await Posts.findOne({ where: { post_id } });
+    if (!post) {
+      return res.status(404).json({ message: "게시글이 존재하지 않습니다." });
     }
-  });
-  
+
+    // 댓글 조회
+    const comments = await Comments.findAll({
+      where: { Post_id: post_id },
+    });
+
+    return res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ errorMessage: "댓글 조회에 실패하였습니다." });
+  }
+});
+
+// 댓글 상세 조회 API
+router.get("/comments/:comment_id", async (req, res) => {
+  const { comment_id } = req.params;
+
+  try {
+    // 댓글 조회
+    const comment = await Comments.findOne({
+      where: { comment_id },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: "댓글이 존재하지 않습니다." });
+    }
+
+    return res.status(200).json(comment);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ errorMessage: "댓글 상세 조회에 실패하였습니다." });
+  }
+});
 
 // 댓글 수정 API (authMiddleware: 사용자 인증)
 router.put("/comments/:comment_id", authMiddleware, async (req, res) => {
@@ -128,4 +142,3 @@ router.delete("/comments/:comment_id", authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-
