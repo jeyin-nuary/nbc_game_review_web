@@ -26,13 +26,6 @@ window.addEventListener("DOMContentLoaded", async function(){
     });
 });
 
-//게시글 수정
-document
-  .getElementById("postUpdate")
-  .addEventListener("click",authMiddleware, async function(){
-    window.location.href = `/postupdate.html?id=${id}`
-  })
-
 // 게시글 삭제
 document
   .getElementById("postDelete")
@@ -57,6 +50,13 @@ document
           // 에러 처리 로직 수행
         }
 });
+
+//게시글 수정
+document
+  .getElementById("postUpdate")
+  .addEventListener("click", async function(){
+    window.location.href = `/postupdate.html?id=${id}`
+  })
 
 // 댓글 작성
 document.getElementById('commentCreate').addEventListener('click', async function () {

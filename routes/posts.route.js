@@ -12,7 +12,6 @@ router.get("/posts", async (req, res) => {
             attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             order: [['createdAt', 'DESC']]
         });
-        //console.log(posts)
 
         if (posts.length !== 0) {
             const results = posts.map(post => {
@@ -90,7 +89,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
             content
         });
 
-        return res.status(201).json({ message: "게시글 작성에 성공하였습니다." });
+        return res.status(201).json({ data: "게시글 작성에 성공하였습니다." });
     } catch (error) {
         console.error(error);
 
