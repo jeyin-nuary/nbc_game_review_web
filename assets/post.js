@@ -1,4 +1,4 @@
-// 회원가입 버튼 클릭 시 회원가입 처리
+// 저장 버튼 클릭 시 게시글 작성 처리
 document
   .getElementById("postSubmit")
   .addEventListener("click", async function () {
@@ -13,7 +13,6 @@ document
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            postId,
             title,
             game_title,
             genre,

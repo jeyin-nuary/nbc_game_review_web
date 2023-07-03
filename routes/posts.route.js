@@ -12,7 +12,6 @@ router.get("/posts", async (req, res) => {
             attributes: ['post_id', 'user_id', 'title', 'game_title', 'genre', 'content', 'createdAt'],
             order: [['createdAt', 'DESC']]
         });
-        //console.log(posts)
 
         if (posts.length !== 0) {
             const results = posts.map(post => {
@@ -47,10 +46,9 @@ router.get("/posts/:post_id", async (req, res) => {
         });
             if (posts.length !== 0) {
                 const results = posts;
-                console.log(results);
                 res.status(200).json({ results })
             }
-        return res.status(200).json({ message: "게시글 조회 성공하였습니다." });
+        // return res.status(200).json({ message: "게시글 조회 성공하였습니다." });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
@@ -91,7 +89,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
             content
         });
 
-        return res.status(201).json({ message: "게시글 작성에 성공하였습니다." });
+        return res.status(201).json({ data: "게시글 작성에 성공하였습니다." });
     } catch (error) {
         console.error(error);
 
@@ -130,7 +128,7 @@ router.put("/posts/:post_id", authMiddleware, async (req, res) => {
                 }
             }
         );
-        return res.status(200).json({ data: "게시글이 수정되었습니다." });
+        return res.status(200).json({ message: "게시글이 수정되었습니다." });
     } catch (error) {
         console.error(error);
         if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
@@ -171,7 +169,7 @@ router.delete("/posts/:post_id", authMiddleware, async (req, res) => {
             return res.status(403).json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
         }
 
-        return res.status(400).json({ errorMessage: "게시글 작성에 실패하였습니다." });
+        return res.status(400).json({ errorMessage: "게시글 삭제에 실패하였습니다." });
     }
 })
 

@@ -10,7 +10,6 @@ window.addEventListener("DOMContentLoaded", async function(){
             const genre = post["genre"]
             const content = post["content"]
             const postId = post["postId"]
-            console.log(post);
             const temp_html = `<div class="card">
             <h3 class="tit" id="title">${title}</h3>
             <h5 id="genre">${genre}</h5>
