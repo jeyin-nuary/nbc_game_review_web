@@ -104,6 +104,7 @@ router.get("/comments/:comment_id", async (req, res) => {
     return res
       .status(400)
       .json({ errorMessage: "댓글 상세 조회에 실패하였습니다." });
+
   }
 });
 
